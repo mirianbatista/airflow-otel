@@ -1,0 +1,10 @@
+groups:
+- name: my_alerts
+  rules:
+  - alert: TesteAirflowOperatorFailures
+    expr: last_over_time(airflow_airflow_operator_failures[20m]) > 0
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      description: Teste Airflow Operator Failures

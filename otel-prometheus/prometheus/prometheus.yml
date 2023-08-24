@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+
+rule_files:
+  - alert_rules.yml
+
+scrape_configs:
+  - job_name: 'opentelemetry-collector'
+    static_configs:
+      - targets: ['172.17.0.1:8889']
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager:9093

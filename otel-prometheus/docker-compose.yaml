@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  prometheus:
+    image: prom/prometheus:v2.30.0
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+
+  alertmanager:
+    image: prom/alertmanager:v0.23.0
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - --config.file=/etc/alertmanager/config.yml
+    ports:
+      - 9093:9093
+
+  opentelemetry-collector:
+      image: otel/opentelemetry-collector:latest
+      container_name: "opentelemetry-collector"
+      volumes:
+        - ./collector-config.yaml:/etc/collector-config.yaml 
+      command: ["--config=/etc/collector-config.yaml"]
+      ports:
+        - "8889:8889" # Prometheus Exporter port
+        - "4317:4317" # gRPC port
+        - "4318:4318" # HTTP port
